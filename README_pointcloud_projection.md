@@ -1,13 +1,15 @@
 # 3D点云投影与视角变换工具
 
+## -1. 导出depth深度值
+
+```bash
+blender -b town.blend --python export_depth.py -- --frame 60 --depth_out depth_00060 --width 512 --height 384
+```
+
 ## 0. 导出相机矩阵
 
 ```bash
-/apdcephfs_cq5/share_300600172/suanhuang/users/wangyuzhen/WorldRenderer/blender/blender-5.0.0-linux-x64/blender -b renderer/town.blend --python renderer/export_camera2.py -- --frame 50 --K_out renderer/camera_K_frame50.txt --RT_out renderer/camera_RT_frame50.txt --width 512 --height 384
-```
-
-```bash
-/apdcephfs_cq5/share_300600172/suanhuang/users/wangyuzhen/WorldRenderer/blender/blender-5.0.0-linux-x64/blender -b renderer/town.blend --python renderer/export_camera3.py -- --frame 50 --K_out renderer/camera_K3_frame50.txt --R_out renderer/camera_R3_frame50.txt --T_out renderer/camera_T3_frame50.txt
+blender -b renderer/town.blend --python renderer/export_camera2.py -- --frame 50 --K_out renderer/camera_K_frame50.txt --RT_out renderer/camera_RT_frame50.txt --width 512 --height 384
 ```
 
 调试
@@ -24,11 +26,11 @@ python renderer/debug.py \
 ## 1. RGBD帧生成世界点云
 
 ```bash
-python renderer/rgbd_to_pointcloud.py \
-  --rgb renderer/frame_00051.png \
-  --depth renderer/depth_00050.png \
-  --intrinsics renderer/camera_K_frame50.txt \
-  --extrinsics renderer/camera_RT_frame50.txt \
+python rgbd_to_pointcloud.py \
+  --rgb frame_00051.png \
+  --depth depth_00050.png \
+  --intrinsics camera_K_frame50.txt \
+  --extrinsics camera_RT_frame50.txt \
   --output town_frame50.ply
 ```
 - `town_rgb_1.png`：第1帧的RGB图片
