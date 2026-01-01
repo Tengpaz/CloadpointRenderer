@@ -26,25 +26,25 @@ def project_pointcloud_to_depth(points, colors, depth_path, K, Rt, out_h, out_w)
     cx = K[0,2]
     cy = K[1,2]
 
-    zs = cam_points[:,2] # 深度    
+    zs = -cam_points[:,2] # 深度    
     valid = zs > 0  # 仅保留正深度点
     for i in range(len(valid)):
         if not valid[i]:
             continue
-        y_index = int((fy * (cam_points[i,1] / zs[i]) + cy))
+        y_index = int((fy * (-cam_points[i,1] / zs[i]) + cy))
         x_index = int((fx * (cam_points[i,0] / zs[i]) + cx))
         if y_index < 0 or y_index >= depth.shape[0] or x_index < 0 or x_index >= depth.shape[1]:
             continue
         z_depth = depth[y_index, x_index]
-        if zs[i] > z_depth * 1.2: # 被遮挡
-            # valid[i] = False
+        if zs[i] > z_depth * 1.1: # 被遮挡
+            valid[i] = False
             continue
 
     cam_points = cam_points[valid]
     zs = zs[valid]
     colors = colors[valid]
     xs = cam_points[:,0] / zs # 归一化坐标
-    ys = cam_points[:,1] / zs # 归一化坐标
+    ys = -cam_points[:,1] / zs # 归一化坐标
     fx = K[0,0]
     fy = K[1,1]
     cx = K[0,2]

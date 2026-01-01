@@ -27,11 +27,11 @@ python renderer/debug.py \
 
 ```bash
 python rgbd_to_pointcloud.py \
-  --rgb frame_00051.png \
-  --depth depth_00050.png \
-  --intrinsics camera_K_frame50.txt \
-  --extrinsics camera_RT_frame50.txt \
-  --output town_frame50.ply
+  --rgb frame_00061.png \
+  --depth depth_00060.png \
+  --intrinsics camera_K_frame60.txt \
+  --extrinsics camera_RT_frame60.txt \
+  --output town_frame60.ply
 ```
 - `town_rgb_1.png`：第1帧的RGB图片
 - `town_depth_1.png`：第1帧的深度图（单位与相机一致）
@@ -51,11 +51,11 @@ python renderer/rgbd_to_pointcloud.py \
 ## 2. 点云投影到新视角
 
 ```bash
-python renderer/pointcloud_projector.py \
+python pointcloud_projector.py \
   --ply town_frame50.ply \
-  --depth renderer/depth_00060.png \
-  --intrinsics renderer/camera_K_frame60.txt \
-  --extrinsics renderer/camera_RT_frame60.txt \
+  --depth depth_00060.png \
+  --intrinsics camera_K_frame60.txt \
+  --extrinsics camera_RT_frame60.txt \
   --out_h 384 --out_w 512 \
   --rgb_out proj_rgb_60.png \
   --mask_out proj_mask_60.png
