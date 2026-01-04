@@ -33,7 +33,8 @@ def rgb_depth_to_pointcloud(rgb_path, depth_path, K, Rt, output_path):
             depth = depth[..., 0]
         # 将16位PNG深度图转换为实际深度值（假设最大深度30米）
         if depth.dtype == np.uint16:
-            depth = depth.astype(np.float32) / 65535.0 * 30.0
+            # depth = depth.astype(np.float32) / 65535.0 * 30.0
+            depth = depth.astype(np.float32) / 1000.0  # 假设深度以毫米为单位存储，转换为米
         else:
             depth = depth.astype(np.float32)
         print(f"Loaded depth from image: shape={depth.shape}, dtype={depth.dtype}")

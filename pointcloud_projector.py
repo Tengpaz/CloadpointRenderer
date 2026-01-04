@@ -15,7 +15,8 @@ def project_pointcloud_to_depth(points, colors, depth_path, K, Rt, out_h, out_w)
     depth = imageio.v2.imread(depth_path)
     if depth.ndim == 3:
         depth = depth[..., 0]
-    depth = depth / 65535 * 30
+    # depth = depth / 65535 * 30
+    depth = depth / 1000.0  # 假设深度以毫米为单位存储，转换为米
     R = Rt[:3, :3]
     T = Rt[:3, 3]
     points = R @ points.T
