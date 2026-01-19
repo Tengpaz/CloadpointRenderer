@@ -43,6 +43,26 @@ python renderer/debug.py \
 --sample_num 20
 ```
 
+## 0. 导出depth, normal
+
+```bash
+blender -b town.blend -P export_depth_normal.py
+```
+
+在export_depth_normal.py中存在以下参数
+
+- OUTPUT_ROOT 输出路径
+- DEPTH_DIR 输出路径中存放depth的文件夹
+- NORMAL_DIR 输出路径中存放normal的文件夹
+- DEPTH_NEAR depth深度值最小值
+- DEPTH_FAR depth深度值最大值，当值为65.535时输出的16位深度图是无归一化的
+- PNGHEIGHT 输出的图片的高
+- PNGWIDTH 输出的图片的宽
+- FRAME_START 开始帧数
+- FRAME_END 结束帧数
+
+- town.blend: 3D模型路径
+
 ## 1. RGBD帧生成世界点云
 
 ```bash
