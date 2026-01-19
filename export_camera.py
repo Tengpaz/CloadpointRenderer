@@ -29,14 +29,14 @@ def main():
     f_in_mm = cam.lens
     sensor_width_in_mm = cam.sensor_width
     sensor_height_in_mm = cam.sensor_height
-    pixel_aspect = render.pixel_aspect_y / render.pixel_aspect_x
+    # pixel_aspect = render.pixel_aspect_y / render.pixel_aspect_x # 计算像素宽高比
 
     if cam.sensor_fit == 'VERTICAL' or (cam.sensor_fit == 'AUTO' and sensor_height_in_mm * w > sensor_width_in_mm * h):
-        s_u = w / sensor_width_in_mm / pixel_aspect
+        s_u = w / sensor_width_in_mm
         s_v = h / sensor_height_in_mm
     else:
         s_u = w / sensor_width_in_mm
-        s_v = h * pixel_aspect / sensor_height_in_mm
+        s_v = h / sensor_height_in_mm
 
     alpha_u = f_in_mm * s_u
     alpha_v = f_in_mm * s_v
@@ -49,28 +49,15 @@ def main():
         [0, 0, 1]
     ])
 
-    # 去除缩放：提取纯旋转矩阵
-    mw = cam_obj.matrix_world.copy()
-
-    # 提取旋转部分并正交化（去除缩放影响）
-    rot = mw.to_3x3()
-    rot.normalize()  # 正交化旋转矩阵，确保无缩放
-
-    # 构造无缩放的4x4矩阵
-    mw_no_scale = mathutils.Matrix.Identity(4)
-    for i in range(3):
-        for j in range(3):
-            mw_no_scale[i][j] = rot[i][j]
-    mw_no_scale.translation = mw.translation # 保留平移部分
-
-    RT = np.array(mw_no_scale.inverted()) # 世界到相机坐标系
+    RT = cam_obj.matrix_world.inverted()
+    RT = np.array(RT)
 
     # 保存内参和外参
     np.savetxt(args.K_out, K)
     print(f"K (分辨率: {w}x{h}):\n", K)
 
     np.savetxt(args.RT_out, RT)
-    print("RT (世界到相机，去除缩放):\n", RT)
+    print("RT (世界到相机):\n", RT)
 
 if __name__ == "__main__":
     main()

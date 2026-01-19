@@ -22,7 +22,7 @@ pip install -r requirements.txt
 ## 0. 导出相机矩阵
 
 ```bash
-blender -b town.blend --python export_camera2.py -- --frame 50 --K_out camera_K_frame50.txt --RT_out camera_RT_frame50.txt --width 512 --height 384
+blender -b town.blend --python export_camera.py -- --frame 60 --K_out camera_K_frame60.txt --RT_out camera_RT_frame60.txt --width 720 --height 480
 ```
 
 - blender： blender可执行文件路径
@@ -30,7 +30,7 @@ blender -b town.blend --python export_camera2.py -- --frame 50 --K_out camera_K_
 - `--frame 50`：导出第50帧的相机参数
 - `--K_out camera_K_frame50.txt`：输出相机内参文件路径
 - `--RT_out camera_RT_frame50.txt`：输出相机外参文件路径
-- `--width 512 --height 384`：导出分辨率，需要与相机参数一致
+- `--width 720 --height 480`：导出分辨率，需要与相机参数一致
 
 调试
 
@@ -39,7 +39,7 @@ python renderer/debug.py \
 --K_path renderer/camera_K_frame50.txt \
 --RT_path renderer/camera_RT_frame50.txt \
 --points_path town_frame1.ply \
---out_w 512 --out_h 384 \
+--out_w 720 --out_h 480 \
 --sample_num 20
 ```
 
@@ -47,8 +47,8 @@ python renderer/debug.py \
 
 ```bash
 python rgbd_to_pointcloud.py \
-  --rgb frame_00061.png \
-  --depth depth_00060.png \
+  --rgb /vePFS-MLP/buaa/wangyuzhen/CloadpointRenderer/outputs/normal/normal_0060.png \
+  --depth /vePFS-MLP/buaa/wangyuzhen/CloadpointRenderer/outputs/depth/depth_0060.png \
   --intrinsics camera_K_frame60.txt \
   --extrinsics camera_RT_frame60.txt \
   --output town_frame60.ply
@@ -68,7 +68,7 @@ python pointcloud_projector.py \
   --depth depth_00060.png \
   --intrinsics camera_K_frame60.txt \
   --extrinsics camera_RT_frame60.txt \
-  --out_h 384 --out_w 512 \
+  --out_h 480 --out_w 720 \
   --rgb_out proj_rgb_60.png \
   --mask_out proj_mask_60.png
 ```

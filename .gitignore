@@ -4,3 +4,5 @@
 *.mp4
 *.npy
 *.ply
+assets/
+__pycache__/
